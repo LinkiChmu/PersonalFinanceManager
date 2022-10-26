@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MaxCategory implements FinanceRequest, Observer {
-    private String category;
-    private int sum;
-    private transient Map<String, Integer> expensesByCategory;
+    protected String category;
+    protected int sum;
+    protected transient Map<String, Integer> expensesByCategory;
 
     public MaxCategory() {
         this.expensesByCategory = new HashMap<>();
