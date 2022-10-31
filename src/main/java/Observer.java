@@ -1,3 +1,3 @@
 public interface Observer {
-    void update(String category, int sum, String date);
+    void update(String category, int sum);
 }

@@ -4,6 +4,7 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +28,9 @@ public class Main {
                              new InputStreamReader(socket.getInputStream()));
                      PrintWriter out = new PrintWriter(socket.getOutputStream(), true))
                 {
-                    String jsonString = in.readLine();
-                    System.out.println(jsonString);
-                    JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+                    String strJson = in.readLine();
+                    System.out.println(strJson);
+                    JsonObject jsonObject = JsonParser.parseString(strJson).getAsJsonObject();
                     String expense = jsonObject.get("title").getAsString();
                     String date = jsonObject.get("date").getAsString();
                     int sum = jsonObject.get("sum").getAsInt();
@@ -63,4 +64,5 @@ public class Main {
         }
         return categories;
     }
+
 }

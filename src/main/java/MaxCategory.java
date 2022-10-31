@@ -13,7 +13,7 @@ public class MaxCategory implements FinanceRequest, Observer {
     }
 
     @Override
-    public void update(String category, int sum, String date) {
+    public void update(String category, int sum) {
         if (expensesByCategory.containsKey(category)) {
             int currSum = expensesByCategory.get(category);
             expensesByCategory.put(category, (currSum + sum));
@@ -29,5 +29,9 @@ public class MaxCategory implements FinanceRequest, Observer {
                 Comparator.comparingInt(Map.Entry::getValue));
         category = maxEntry.getKey();
         sum = maxEntry.getValue();
+    }
+
+    public Map<String, Integer> getExpensesByCategory() {
+        return expensesByCategory;
     }
 }
