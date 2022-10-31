@@ -16,7 +16,8 @@ public class Main {
 
         FinanceData financeData = new FinanceData();
         Observer maxCategory = new MaxCategory();
-        financeData.registerObserver(maxCategory);
+
+
 
         Map<String, String> categories = loadFromTxtFile(new File("categories.tsv"));
         try (ServerSocket serverSocket = new ServerSocket(PORT)
