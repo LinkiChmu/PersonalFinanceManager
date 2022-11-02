@@ -15,9 +15,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         FinanceData financeData = new FinanceData();
-        Observer maxCategory = new MaxCategory();
-
-
 
         Map<String, String> categories = loadFromTxtFile(new File("categories.tsv"));
         try (ServerSocket serverSocket = new ServerSocket(PORT)
@@ -42,7 +39,9 @@ public class Main {
                     } else {
                         category = "другое";
                     }
-                    financeData.addExpense(category, sum, date);
+                    financeData.logExpense(date, sum, category);
+                    MaxCategory maxCategory = new MaxCategory();
+                    maxCategory.extractDataFromLog(financeData);
                     FinanceStatistics financeStatistics = new FinanceStatistics(maxCategory);
 
                     out.println(gson.toJson(financeStatistics));

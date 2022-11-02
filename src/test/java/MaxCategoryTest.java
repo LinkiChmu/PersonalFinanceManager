@@ -18,15 +18,15 @@ public class MaxCategoryTest {
     @DisplayName("Testing addition of a new (not existing) expense to the map")
     @ParameterizedTest
     @MethodSource("getArguments")
-    void update(String category, int sum, String date) {
+    void update(String category, int sum) {
         Assertions.assertEquals(0, maxCategory.expensesByCategory.size());
 
-        maxCategory.update(category, sum, date);
+        maxCategory.update(category, sum);
         Assertions.assertEquals(1, maxCategory.expensesByCategory.size());
         Assertions.assertEquals(sum, maxCategory.expensesByCategory.get(category));
 
         maxCategory.expensesByCategory.put("быт", 200);
-        maxCategory.update(category, sum, date);
+        maxCategory.update(category, sum);
         Assertions.assertEquals(2, maxCategory.expensesByCategory.size());
 
         Assertions.assertNotNull(maxCategory.category);
@@ -34,28 +34,28 @@ public class MaxCategoryTest {
     }
     static Stream<Arguments> getArguments() {
         return Stream.of(
-                Arguments.of("еда", 100, "26.10.2022"),
-                Arguments.of("еда", 1000, "26.10.2022"),
-                Arguments.of("еда", 800, "25.10.2022"),
-                Arguments.of("другое", 2000, "24.10.2021"),
-                Arguments.of("другое", 100, "27.10.2021"),
-                Arguments.of("другое", 4000, "20.11.2021"),
-                Arguments.of("финансы", 1000, "26.10.2022")
+                Arguments.of("еда", 100),
+                Arguments.of("еда", 1000),
+                Arguments.of("еда", 800),
+                Arguments.of("другое", 2000),
+                Arguments.of("другое", 100),
+                Arguments.of("другое", 4000),
+                Arguments.of("финансы", 1000)
         );
     }
 
     @DisplayName("Testing the addition of an already contained expense")
     @ParameterizedTest
     @MethodSource("getArguments2")
-    void updateWhenExpenseExists(String category, int sum, String date) {
+    void updateWhenExpenseExists(String category, int sum) {
         Assertions.assertEquals(0, maxCategory.expensesByCategory.size());
 
-        maxCategory.update(category, sum, date);
+        maxCategory.update(category, sum);
         Assertions.assertEquals(1, maxCategory.expensesByCategory.size());
         Assertions.assertEquals(sum, maxCategory.expensesByCategory.get(category));
 
         maxCategory.expensesByCategory.put("еда", 300);
-        maxCategory.update(category, sum, date);
+        maxCategory.update(category, sum);
         Assertions.assertEquals(1, maxCategory.expensesByCategory.size());
         Assertions.assertEquals(1300, maxCategory.expensesByCategory.get(category));
 
@@ -64,9 +64,9 @@ public class MaxCategoryTest {
     }
     static Stream<Arguments> getArguments2() {
         return Stream.of(
-                Arguments.of("еда", 1000, "26.10.2022"),
-                Arguments.of("еда", 1000, "25.10.2022"),
-                Arguments.of("еда", 1000, "11.11.2022")
+                Arguments.of("еда", 1000),
+                Arguments.of("еда", 1000),
+                Arguments.of("еда", 1000)
         );
     }
 

@@ -1,9 +1,6 @@
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class MaxCategory implements FinanceRequest, Observer {
+public class MaxCategory {
     protected String category;
     protected int sum;
     protected transient Map<String, Integer> expensesByCategory;
@@ -12,7 +9,7 @@ public class MaxCategory implements FinanceRequest, Observer {
         this.expensesByCategory = new HashMap<>();
     }
 
-    @Override
+
     public void update(String category, int sum) {
         if (expensesByCategory.containsKey(category)) {
             int currSum = expensesByCategory.get(category);
@@ -23,15 +20,20 @@ public class MaxCategory implements FinanceRequest, Observer {
         findAndSetCategory();
     }
 
-    @Override
-    public void findAndSetCategory() {
+        public void findAndSetCategory() {
         Map.Entry<String, Integer> maxEntry = Collections.max(expensesByCategory.entrySet(),
                 Comparator.comparingInt(Map.Entry::getValue));
         category = maxEntry.getKey();
         sum = maxEntry.getValue();
     }
 
-    public Map<String, Integer> getExpensesByCategory() {
+    public void extractDataFromLog (FinanceData financeData) {
+        financeData.log.forEach(purchase -> {
+            this.update(purchase.getCategory(), purchase.getSum());
+        });
+    }
+
+     public Map<String, Integer> getExpensesByCategory() {
         return expensesByCategory;
     }
 }
