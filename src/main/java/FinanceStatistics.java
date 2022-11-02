@@ -1,9 +1,9 @@
 import java.io.Serializable;
 
 public class FinanceStatistics implements Serializable {
-    protected MaxCategory maxCategory;
+    protected MaximalCategory maxCategory;
 
-    public FinanceStatistics(MaxCategory maxCategory) {
+    public FinanceStatistics(MaximalCategory maxCategory) {
         this.maxCategory = maxCategory;
     }
 }

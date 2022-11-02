@@ -4,7 +4,6 @@ import com.google.gson.JsonParser;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ public class Main {
         try (ServerSocket serverSocket = new ServerSocket(PORT)
         ) {
             System.out.println("Server started");
+
             while (true) {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(
@@ -40,8 +40,8 @@ public class Main {
                         category = "другое";
                     }
                     financeData.logExpense(date, sum, category);
-                    MaxCategory maxCategory = new MaxCategory();
-                    maxCategory.extractDataFromLog(financeData);
+                    MaximalCategory maxCategory = new MaxCategory();
+                     maxCategory.extractDataFromLog(financeData);
                     FinanceStatistics financeStatistics = new FinanceStatistics(maxCategory);
 
                     out.println(gson.toJson(financeStatistics));
