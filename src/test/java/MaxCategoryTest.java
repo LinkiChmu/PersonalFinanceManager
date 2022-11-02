@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -88,11 +87,16 @@ public class MaxCategoryTest {
     @DisplayName("Testing extracting the data from the log")
     @Test
     void extractDataFromLog() {
-        List<Purchase> log = new ArrayList<>();
-        log.add(new Purchase("2022.10.27", "быт", 250));
-        log.add(new Purchase("2022.10.27", "финансы", 250));
-        log.add(new Purchase("2022.10.25", "еда", 600));
-        log.add(new Purchase("2022.10.25", "еда", 600));
+        FinanceData financeData = new FinanceData();
+        financeData.log = List.of(
+        new Purchase(20221027, "быт", 250),
+        new Purchase(20221027, "финансы", 250),
+        new Purchase(20221025, "еда", 600),
+        new Purchase(20221025, "еда", 600)
+        );
+        maxCategory.extractDataFromLog(financeData);
+        Assertions.assertEquals("еда", maxCategory.category);
+        Assertions.assertEquals(1200, maxCategory.sum);
     }
 
 }
