@@ -4,6 +4,7 @@ import java.util.List;
 
 public class FinanceData implements Serializable {
     protected List<Purchase> log;
+    private static final long serialVersionUID = 31L;
 
     public FinanceData() {
         this.log = new ArrayList<>();
@@ -14,6 +15,7 @@ public class FinanceData implements Serializable {
     }
 
     public List<Purchase> getLog() {
+        log.sort(Purchase::compareTo);
         return log;
     }
 
