@@ -1,4 +1,6 @@
-public class Purchase implements Comparable {
+import java.io.Serializable;
+
+public class Purchase implements Comparable, Serializable {
     private int date;
     private String category;
     private int sum;

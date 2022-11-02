@@ -10,9 +10,11 @@ import java.util.Map;
 public class Main {
     private static final int PORT = 8989;
     private static final Gson GSON = new Gson();
+    private static File binFile = new File("data.bin");
 
-    public static void main(String[] args) throws IOException {
-        FinanceData financeData = new FinanceData();
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+
+        FinanceData financeData = FinanceData.config(binFile);
         Map<String, String> categories = loadFromTxtFile(new File("categories.tsv"));
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -53,6 +55,7 @@ public class Main {
                             maxCategory, maxYearCategory, maxMonthCategory, maxDayCategory);
 
                     out.println(GSON.toJson(financeStatistics));
+                    financeData.saveBin(binFile);
                 }
             }
         } catch (IOException e) {
@@ -71,11 +74,6 @@ public class Main {
             }
         }
         return categories;
-    }
-
-    public static FinanceData loadFromBinFile(File binFile) {
-        // TODO: 02/11/2022
-        return null;
     }
 
     public static String defineCategory(String expense, Map<String, String> categories) {
