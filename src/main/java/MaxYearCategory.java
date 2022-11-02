@@ -10,9 +10,9 @@ public class MaxYearCategory extends MaximalCategory {
     public void extractDataFromLog(FinanceData financeData) {
         financeData.log.stream()
                 .filter(purchase -> (purchase.getDate() / 10_000) == year)
-                .forEach(purchase -> {
-            this.update(purchase.getCategory(), purchase.getSum());
-        });
+                .forEach(purchase ->
+            this.update(purchase.getCategory(), purchase.getSum())
+        );
     }
 
     @Override

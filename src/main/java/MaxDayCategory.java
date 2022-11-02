@@ -3,8 +3,7 @@ public class MaxDayCategory extends MaximalCategory {
 
     public MaxDayCategory(int year, int month, int day) {
         super();
-        yearMonthDay = year * 10_000 + month * 100 +day;
-
+        yearMonthDay = year * 10_000 + month * 100 + day;
     }
 
     @Override
@@ -12,7 +11,7 @@ public class MaxDayCategory extends MaximalCategory {
         financeData.log.stream()
                 .filter(purchase -> purchase.getDate() == yearMonthDay)
                 .forEach(purchase ->
-                    this.update(purchase.getCategory(), purchase.getSum())
+                        this.update(purchase.getCategory(), purchase.getSum())
                 );
     }
 

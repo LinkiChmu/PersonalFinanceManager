@@ -1,6 +1,4 @@
-import java.util.*;
-
-public class MaxCategory extends MaximalCategory{
+public class MaxCategory extends MaximalCategory {
 
     public MaxCategory() {
         super();
@@ -8,10 +6,9 @@ public class MaxCategory extends MaximalCategory{
 
     @Override
     public void extractDataFromLog(FinanceData financeData) {
-        financeData.log.forEach(purchase -> {
-            this.update(purchase.getCategory(), purchase.getSum());
-        });
-
+        financeData.log.forEach(purchase ->
+            this.update(purchase.getCategory(), purchase.getSum())
+        );
     }
 
     @Override
