@@ -4,6 +4,7 @@ public class Purchase implements Comparable, Serializable {
     private int date;
     private String category;
     private int sum;
+    private static final long serialVersionUID = 29L;
 
     public Purchase(int date, String category, int sum) {
         this.date = date;
@@ -19,6 +20,11 @@ public class Purchase implements Comparable, Serializable {
         } else if (date == p.date){
             return 1;
         } else return 0;
+    }
+
+    @Override
+    public String toString() {
+        return date + " " + category + " = " + sum;
     }
 
     public int getDate() {
