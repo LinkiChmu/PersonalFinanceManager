@@ -1,12 +1,16 @@
-public class MaxCategory extends MaximalCategory {
+public class MaxYearCategory extends MaximalCategory {
+    protected transient int year;
 
-    public MaxCategory() {
+    public MaxYearCategory(int year) {
         super();
+        this.year = year;
     }
 
     @Override
     public void extractDataFromLog(FinanceData financeData) {
-        financeData.log.forEach(purchase ->
+        financeData.log.stream()
+                .filter(purchase -> (purchase.getDate() / 10_000) == year)
+                .forEach(purchase ->
             this.update(purchase.getCategory(), purchase.getSum())
         );
     }

@@ -1,38 +1,18 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinanceData implements Notifier {
-    private List<Observer> observers;
-    private String category;
-    private int sum;
-    private String date;
+public class FinanceData {
+    protected List<Purchase> log;
 
     public FinanceData() {
-        this.observers = new ArrayList<>();
+        this.log = new ArrayList<>();
     }
 
-    @Override
-    public void registerObserver(Observer o) {
-        observers.add(o);
+    public void logExpense(int date, int sum, String category) {
+        log.add(new Purchase(date, category, sum));
     }
 
-    @Override
-    public void removeObserver(Observer o) {
-        observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update(category, sum, date);
-        }
-    }
-
-    public void addExpense (String category, int sum, String date) {
-        this.category = category;
-        this.sum = sum;
-        this.date = date;
-        notifyObservers();
-
+    public List<Purchase> getLog() {
+        return log;
     }
 }

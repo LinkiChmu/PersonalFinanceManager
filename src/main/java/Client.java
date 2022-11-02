@@ -2,7 +2,6 @@ import org.json.simple.JSONObject;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -17,9 +16,9 @@ public class Client {
 
     public static void main(String[] args) {
         List<String> expenseNames = List.of("булка", "колбаса", "сухарики",
-                "курица", "стрижка", "маникюр", "шампунь", "мыло", "акции",
+                "курица", "стрижка", "шампунь", "мыло", "акции",
                 "коммуналка", "тапки", "шапка", "тренировка");
-        int[] prices = {100, 50, 150, 300, 500, 800, 1000, 200, 1100, 700, 900};
+        int[] prices = { 400, 100, 900, 150, 300, 500, 800, 1000, 200, 1100, 700 };
         String formattedDate = LocalDate.now().format(dateFormatter);
         JSONObject obj = new JSONObject();
         try (
@@ -30,6 +29,7 @@ public class Client {
         ) {
             obj.put("sum", prices[random.nextInt(prices.length)]);
             obj.put("date", formattedDate);
+            //              obj.put("date", "2022.11.30");
             obj.put("title", expenseNames.get(random.nextInt(expenseNames.size())));
 
             String msg = obj.toJSONString();

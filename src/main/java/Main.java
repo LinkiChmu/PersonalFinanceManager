@@ -9,41 +9,50 @@ import java.util.Map;
 
 public class Main {
     private static final int PORT = 8989;
-    private static Gson gson = new Gson();
+    private static final Gson GSON = new Gson();
 
     public static void main(String[] args) throws IOException {
-
         FinanceData financeData = new FinanceData();
-        Observer maxCategory = new MaxCategory();
-        financeData.registerObserver(maxCategory);
-
         Map<String, String> categories = loadFromTxtFile(new File("categories.tsv"));
-        try (ServerSocket serverSocket = new ServerSocket(PORT)
-        ) {
+
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server started");
+
             while (true) {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()));
                      PrintWriter out = new PrintWriter(socket.getOutputStream(), true))
                 {
-                    String jsonString = in.readLine();
-                    System.out.println(jsonString);
-                    JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+                    String strJson = in.readLine();
+                    System.out.println(strJson);
+
+                    JsonObject jsonObject = JsonParser.parseString(strJson).getAsJsonObject();
                     String expense = jsonObject.get("title").getAsString();
                     String date = jsonObject.get("date").getAsString();
                     int sum = jsonObject.get("sum").getAsInt();
+                    int year = Integer.parseInt(date.substring(0,4));
+                    int month = Integer.parseInt(date.substring(5,7));
+                    int day = Integer.parseInt(date.substring(8));
+                    int dateAsInt = year * 10_000 + month * 100 + day;
 
-                    String category;
-                    if (categories.containsKey(expense)) {
-                        category = categories.get(expense);
-                    } else {
-                        category = "другое";
-                    }
-                    financeData.addExpense(category, sum, date);
-                    FinanceStatistics financeStatistics = new FinanceStatistics(maxCategory);
+                    String category = defineCategory(expense, categories);
+                    financeData.logExpense(dateAsInt, sum, category);
 
-                    out.println(gson.toJson(financeStatistics));
+                    MaximalCategory maxCategory = new MaxCategory();
+                    MaximalCategory maxYearCategory = new MaxYearCategory(year);
+                    MaximalCategory maxMonthCategory = new MaxMonthCategory(year, month);
+                    MaximalCategory maxDayCategory = new MaxDayCategory(year, month, day);
+
+                    maxCategory.extractDataFromLog(financeData);
+                    maxYearCategory.extractDataFromLog(financeData);
+                    maxMonthCategory.extractDataFromLog(financeData);
+                    maxDayCategory.extractDataFromLog(financeData);
+
+                    FinanceStatistics financeStatistics = new FinanceStatistics(
+                            maxCategory, maxYearCategory, maxMonthCategory, maxDayCategory);
+
+                    out.println(GSON.toJson(financeStatistics));
                 }
             }
         } catch (IOException e) {
@@ -62,5 +71,14 @@ public class Main {
             }
         }
         return categories;
+    }
+
+    public static FinanceData loadFromBinFile(File binFile) {
+        // TODO: 02/11/2022
+        return null;
+    }
+
+    public static String defineCategory(String expense, Map<String, String> categories) {
+        return categories.getOrDefault(expense, "другое");
     }
 }
