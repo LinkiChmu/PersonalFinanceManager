@@ -32,6 +32,9 @@ public class Main {
                     String expense = jsonObject.get("title").getAsString();
                     String date = jsonObject.get("date").getAsString();
                     int sum = jsonObject.get("sum").getAsInt();
+                    int year = Integer.parseInt(date.substring(0,4));
+                    int month = Integer.parseInt(date.substring(5,7));
+                    int day = Integer.parseInt(date.substring(8));
 
                     String category;
                     if (categories.containsKey(expense)) {
@@ -40,9 +43,18 @@ public class Main {
                         category = "другое";
                     }
                     financeData.logExpense(date, sum, category);
+
                     MaximalCategory maxCategory = new MaxCategory();
-                     maxCategory.extractDataFromLog(financeData);
-                    FinanceStatistics financeStatistics = new FinanceStatistics(maxCategory);
+                    MaximalCategory maxYearCategory = new MaxYearCategory(year);
+                    MaximalCategory maxMonthCategory = new MaxMonthCategory(year, month);
+                    MaximalCategory maxDayCategory = new MaxDayCategory(year, month, day);
+
+                    maxCategory.extractDataFromLog(financeData);
+                    maxYearCategory.extractDataFromLog(financeData);
+                    maxMonthCategory.extractDataFromLog(financeData);
+                    maxDayCategory.extractDataFromLog(financeData);
+                    FinanceStatistics financeStatistics = new FinanceStatistics(
+                            maxCategory, maxYearCategory, maxCategory, maxDayCategory);
 
                     out.println(gson.toJson(financeStatistics));
                 }

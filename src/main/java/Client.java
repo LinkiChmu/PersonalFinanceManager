@@ -29,7 +29,8 @@ public class Client {
                         new InputStreamReader(socket.getInputStream()))
         ) {
             obj.put("sum", prices[random.nextInt(prices.length)]);
-            obj.put("date", formattedDate);
+    //       obj.put("date", formattedDate);
+            obj.put("date", "2021.12.05");
             obj.put("title", expenseNames.get(random.nextInt(expenseNames.size())));
 
             String msg = obj.toJSONString();
