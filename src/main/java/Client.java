@@ -12,7 +12,7 @@ public class Client {
     private static final int PORT = 8989;
     private static final String HOST = "localhost";
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-    private static Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     public static void main(String[] args) {
         List<String> expenseNames = List.of("булка", "колбаса", "сухарики",
@@ -27,10 +27,10 @@ public class Client {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()))
         ) {
-            obj.put("sum", prices[random.nextInt(prices.length)]);
+            obj.put("sum", prices[RANDOM.nextInt(prices.length)]);
             obj.put("date", formattedDate);
-            //              obj.put("date", "2022.11.30");
-            obj.put("title", expenseNames.get(random.nextInt(expenseNames.size())));
+      //      obj.put("date", "2021.10.31");
+            obj.put("title", expenseNames.get(RANDOM.nextInt(expenseNames.size())));
 
             String msg = obj.toJSONString();
             out.println(msg);
