@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class Purchase implements Comparable, Serializable {
+public class Purchase implements Comparable<Purchase>, Serializable {
     private int date;
     private String category;
     private int sum;
@@ -13,13 +13,8 @@ public class Purchase implements Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        Purchase p = (Purchase) o;
-        if (date < p.date) {
-            return -1;
-        } else if (date == p.date){
-            return 1;
-        } else return 0;
+    public int compareTo(Purchase p) {
+        return Integer.compare(date, p.date);
     }
 
     @Override
